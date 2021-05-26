@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A2D763B265E9F600005DE01 /* ChatList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A2D763A265E9F600005DE01 /* ChatList.storyboard */; };
+		2A2D763D265EA0380005DE01 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2D763C265EA0380005DE01 /* ChatListViewController.swift */; };
 		2AE4EE3A265E7B7700AD6B21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE4EE39265E7B7700AD6B21 /* AppDelegate.swift */; };
 		2AE4EE3C265E7B7700AD6B21 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE4EE3B265E7B7700AD6B21 /* SceneDelegate.swift */; };
 		2AE4EE3E265E7B7700AD6B21 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE4EE3D265E7B7700AD6B21 /* ContentView.swift */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2A2D763A265E9F600005DE01 /* ChatList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChatList.storyboard; sourceTree = "<group>"; };
+		2A2D763C265EA0380005DE01 /* ChatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
 		2AE4EE36265E7B7700AD6B21 /* ChatAppWithFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatAppWithFirebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AE4EE39265E7B7700AD6B21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2AE4EE3B265E7B7700AD6B21 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +106,8 @@
 				2AE4EE39265E7B7700AD6B21 /* AppDelegate.swift */,
 				2AE4EE3B265E7B7700AD6B21 /* SceneDelegate.swift */,
 				2AE4EE3D265E7B7700AD6B21 /* ContentView.swift */,
+				2A2D763C265EA0380005DE01 /* ChatListViewController.swift */,
+				2A2D763A265E9F600005DE01 /* ChatList.storyboard */,
 				2AE4EE3F265E7B7A00AD6B21 /* Assets.xcassets */,
 				2AE4EE44265E7B7A00AD6B21 /* LaunchScreen.storyboard */,
 				2AE4EE47265E7B7A00AD6B21 /* Info.plist */,
@@ -241,6 +247,7 @@
 			files = (
 				2AE4EE46265E7B7A00AD6B21 /* LaunchScreen.storyboard in Resources */,
 				2AE4EE43265E7B7A00AD6B21 /* Preview Assets.xcassets in Resources */,
+				2A2D763B265E9F600005DE01 /* ChatList.storyboard in Resources */,
 				2AE4EE40265E7B7A00AD6B21 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -268,6 +275,7 @@
 			files = (
 				2AE4EE3A265E7B7700AD6B21 /* AppDelegate.swift in Sources */,
 				2AE4EE3C265E7B7700AD6B21 /* SceneDelegate.swift in Sources */,
+				2A2D763D265EA0380005DE01 /* ChatListViewController.swift in Sources */,
 				2AE4EE3E265E7B7700AD6B21 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
