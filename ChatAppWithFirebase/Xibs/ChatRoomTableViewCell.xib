@@ -53,6 +53,7 @@
             <connections>
                 <outlet property="dateLabel" destination="qL0-RB-9mo" id="mA2-g2-ZY3"/>
                 <outlet property="messageTextView" destination="POg-Wg-NnS" id="hoj-ez-UOf"/>
+                <outlet property="messageTextViewWidthConstraint" destination="NRA-hf-wLw" id="zaM-QN-Tfy"/>
                 <outlet property="userImageView" destination="ky8-LR-juh" id="zY0-6n-dVm"/>
             </connections>
             <point key="canvasLocation" x="284.78260869565219" y="56.584821428571423"/>
