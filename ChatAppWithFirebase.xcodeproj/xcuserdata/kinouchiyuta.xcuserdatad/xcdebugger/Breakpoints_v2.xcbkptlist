@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "85B315B5-09B3-429D-BE65-23328B63997F"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E6893251-C4FD-4B72-BA22-84FB8A966B90"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChatAppWithFirebase/Controllers/ChatRoomViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "10"
+            endingLineNumber = "10"
+            landmarkName = "ChatRoomViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "E6893251-C4FD-4B72-BA22-84FB8A966B90 - e0ab034d8eaf06c5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ChatAppWithFirebase.ChatRoomViewController.__allocating_init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; ChatAppWithFirebase.ChatRoomViewController"
+                  moduleName = "ChatAppWithFirebase"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kinouchiyuta/Documents/programming/swift/ChatAppWithFirebase/ChatAppWithFirebase/Controllers/ChatRoomViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  uuid = "E6893251-C4FD-4B72-BA22-84FB8A966B90 - 48c9e4c9fce477a1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ChatAppWithFirebase.ChatRoomViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; ChatAppWithFirebase.ChatRoomViewController"
+                  moduleName = "ChatAppWithFirebase"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kinouchiyuta/Documents/programming/swift/ChatAppWithFirebase/ChatAppWithFirebase/Controllers/ChatRoomViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "142">
+               </Location>
+               <Location
+                  uuid = "E6893251-C4FD-4B72-BA22-84FB8A966B90 - f26899be9c070c4a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ChatAppWithFirebase.ChatRoomViewController.__allocating_init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;ChatAppWithFirebase.ChatRoomViewController&gt;"
+                  moduleName = "ChatAppWithFirebase"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kinouchiyuta/Documents/programming/swift/ChatAppWithFirebase/ChatAppWithFirebase/Controllers/ChatRoomViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  uuid = "E6893251-C4FD-4B72-BA22-84FB8A966B90 - 5aa2010d9f5f1ac8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ChatAppWithFirebase.ChatRoomViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;ChatAppWithFirebase.ChatRoomViewController&gt;"
+                  moduleName = "ChatAppWithFirebase"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kinouchiyuta/Documents/programming/swift/ChatAppWithFirebase/ChatAppWithFirebase/Controllers/ChatRoomViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "98">
+               </Location>
+               <Location
+                  uuid = "E6893251-C4FD-4B72-BA22-84FB8A966B90 - 2532997cdc037f45"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ChatAppWithFirebase.ChatRoomViewController.__deallocating_deinit"
+                  moduleName = "ChatAppWithFirebase"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kinouchiyuta/Documents/programming/swift/ChatAppWithFirebase/ChatAppWithFirebase/Controllers/ChatRoomViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
