@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseStorage
 
 class SignUpViewController: UIViewController {
     
@@ -46,35 +47,54 @@ class SignUpViewController: UIViewController {
     }
     
     @objc private func tappedRegisterButton() {
-        guard let email = emailTextField.text else { return }
-        guard let password = passwordTextField.text else { return }
-//        guard let usernameTextField.text else { return }
+        guard let image = profileImageButton.imageView?.image else { return }
+        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
         
-        Auth.auth().createUser(withEmail: email, password: password) { res, err in
+        let fileName = NSUUID().uuidString
+        let storageRef = Storage.storage().reference().child("profile_image").child(fileName)
+        
+        storageRef.putData(uploadImage, metadata: nil) { (metadata,err) in
             if let err = err {
-                print("Auth情報の保存に失敗しました")
                 return
             }
+                  storageRef.downloadURL { url, err in
+                    if let err = err {
+                    }
+                    guard let urlString = url?.absoluteString else { return }
+                    self.createUserToFirestore(profileImageUrl: urlString)
+                }
+         }
+    }
+    
+    private func createUserToFirestore(profileImageUrl: String) {
+            guard let email = emailTextField.text else { return }
+            guard let password = passwordTextField.text else { return }
             
-            print("認証情報の保存に成功しました")
-            
-            guard let uid = res?.user.uid else { return }
-            guard let username = self.usernameTextField.text else { return }
-            
-            let docData = [
-                "email": email,
-                "username": username,
-                "createdAt": Timestamp()
-            ] as [String : Any]
-            Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
+            Auth.auth().createUser(withEmail: email, password: password) { res, err in
                 if let err = err {
-                    print("データベースへの保存に失敗しました \(err)")
                     return
                 }
-                print("FireStoreへの情報の保存が成功しました")
-                self.dismiss(animated: true, completion: nil)
+                
+                print("認証情報の保存に成功しました")
+                
+                guard let uid = res?.user.uid else { return }
+                guard let username = self.usernameTextField.text else { return }
+                
+                let docData = [
+                    "email": email,
+                    "username": username,
+                    "createdAt": Timestamp(),
+                    "profileImageUrl": profileImageUrl
+                ] as [String : Any]
+                Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
+                    if let err = err {
+                        print("データベースへの保存に失敗しました \(err)")
+                        return
+                    }
+                    print("FireStoreへの情報の保存が成功しました")
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
-        }
     }
 }
 
