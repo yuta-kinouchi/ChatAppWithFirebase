@@ -10,4 +10,10 @@
 
 ## episode7
 ImagePckerの使い方
+
 会員情報のFirestoreへの保存
+
+## episode8
+画像の保存方法
+
+FereStore情報の取得
