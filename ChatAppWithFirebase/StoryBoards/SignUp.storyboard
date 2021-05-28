@@ -27,6 +27,9 @@
                                 <state key="normal" title="プロフィール画像">
                                     <color key="titleColor" systemColor="labelColor"/>
                                 </state>
+                                <connections>
+                                    <action selector="tappedProfileImageButton:" destination="2a9-CU-nrs" eventType="touchUpInside" id="I6c-Mi-krI"/>
+                                </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="JPT-rg-Vys">
                                 <rect key="frame" x="57" y="274" width="300" height="250"/>
