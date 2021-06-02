@@ -16,6 +16,7 @@ class ChatRoom {
     let members: [String]
     let createdAt: Timestamp
     
+    var documentId: String?
     var partnerUser: User?
     
     init(dic: [String: Any ]) {
