@@ -24,56 +24,74 @@ class ChatListViewController: UIViewController {
     
     @IBOutlet var chatListTableView: UITableView!
     
+    // 画面ができたときに一度だけ呼ばれる処理
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpViews()
         confirmLoggedInUser()
         fetchLoginUserInfo()
+        fetchChatroomsInfoFromFirestore()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchChatroomsInfoFromFirestore()
+        
     }
     
     private func fetchChatroomsInfoFromFirestore() {
-        Firestore.firestore().collection("chatRooms").getDocuments { snapshots, err in
+        Firestore.firestore().collection("chatRooms")
+            // 更新時にデータを参照するように
+            .addSnapshotListener { (snapshots , err)  in
+                //            .getDocuments { snapshots, err in
             if let err = err {
                 print("Chatrooms情報の取得に失敗しました\(err)")
                 return
             }
-            snapshots?.documents.forEach({ (snapshot) in
-                let dic = snapshot.data()
-                let chatroom = ChatRoom(dic: dic)
-                guard let uid = Auth.auth().currentUser?.uid else { return }
-                chatroom.members.forEach { (memberUid) in
-                    if memberUid != uid {
-                        Firestore.firestore().collection("users").document(memberUid).getDocument { (snapshot,err) in
-                            if let err = err {
-                                print("ユーザー情報の取得に失敗しました\(err)")
-                                return
-                            }
-                            
-                            guard let dic = snapshot?.data() else { return }
-                            let user = User(dic: dic)
-                            user.uid = snapshot?.documentID
-                            
-                            chatroom.partnerUser = user
-                            self.chatrooms.append(chatroom)
-                            self.chatListTableView.reloadData()
-            //                print(self.chatrooms.count)
-            //                print("dic: ",dic)
-                        }
-                    }
-                }
+                
+                snapshots?.documentChanges.forEach({ DocumentChange in
+                    switch DocumentChange.type {
+                    // データベースに追加された情報だけを取ってくる
+                    case .added:
+                        self.handleAddedDocumentChange(documentChange: DocumentChange)
 
-            })
+                    case .modified , .removed:
+                        print("nothing to do")
+                    }
+                })
+ 
+        }
+    }
+    
+    private func handleAddedDocumentChange(documentChange: DocumentChange) {
+        let dic = documentChange.document.data()
+        let chatroom = ChatRoom(dic: dic)
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        chatroom.members.forEach { (memberUid) in
+            if memberUid != uid {
+                Firestore.firestore().collection("users").document(memberUid).getDocument { (snapshot,err) in
+                    if let err = err {
+                        print("ユーザー情報の取得に失敗しました\(err)")
+                        return
+                    }
+                    
+                    guard let dic = snapshot?.data() else { return }
+                    let user = User(dic: dic)
+                    user.uid = documentChange.document.documentID
+                    
+                    chatroom.partnerUser = user
+                    self.chatrooms.append(chatroom)
+                    self.chatListTableView.reloadData()
+                    //                print(self.chatrooms.count)
+                    //                print("dic: ",dic)
+                }
+            }
         }
     }
     
     private func setUpViews() {
+        chatListTableView.tableFooterView = UIView()
         chatListTableView.delegate = self
         chatListTableView.dataSource = self
         navigationController?.navigationBar.barTintColor = .rgb(red: 39, green: 49, blue: 69)
@@ -102,7 +120,7 @@ class ChatListViewController: UIViewController {
         let userListViewController = storyboard.instantiateViewController(withIdentifier: "UserListViewController")
         // ここの行がない時，ナビゲーションバーが表示されない
         let nav = UINavigationController(rootViewController: userListViewController)
-        nav.modalPresentationStyle = .fullScreen
+//        nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
 
     }
@@ -184,7 +202,7 @@ class ChatListTableViewCell: UITableViewCell {
     @IBOutlet var dateLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
-        userImageView.layer.cornerRadius = 35
+        userImageView.layer.cornerRadius = 30
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
