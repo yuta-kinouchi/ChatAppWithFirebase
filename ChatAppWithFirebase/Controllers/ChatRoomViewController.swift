@@ -63,6 +63,7 @@ class ChatRoomViewController: UIViewController {
                     case .added:
                         let dic = DocumentChange.document.data()
                         let message = Message(dic: dic)
+                        message.partnerUser = self.chatroom?.partnerUser
                         self.messages.append(message)
                         self.chatRoomTableView.reloadData()
                         print("message dic:", dic)
