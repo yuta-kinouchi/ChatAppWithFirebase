@@ -71,24 +71,43 @@ class ChatListViewController: UIViewController {
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let isContain = chatroom.members.contains(uid)
+        
         if !isContain { return }
         chatroom.members.forEach { (memberUid) in
             if memberUid != uid {
-                Firestore.firestore().collection("users").document(memberUid).getDocument { (snapshot,err) in
+                Firestore.firestore().collection("users").document(memberUid).getDocument { (userSnapshot,err) in
                     if let err = err {
                         print("ユーザー情報の取得に失敗しました\(err)")
                         return
                     }
                     
-                    guard let dic = snapshot?.data() else { return }
+                    guard let dic = userSnapshot?.data() else { return }
                     let user = User(dic: dic)
                     user.uid = documentChange.document.documentID
+                    chatroom.partnerUser  = user
                     
-                    chatroom.partnerUser = user
-                    self.chatrooms.append(chatroom)
-                    self.chatListTableView.reloadData()
-                    //                print(self.chatrooms.count)
-                    //                print("dic: ",dic)
+                    guard let chatroomId = chatroom.documentId else { return }
+                    let latestMessageId = chatroom.latestMessageId
+                    
+                    if latestMessageId == "" {
+                        self.chatrooms.append(chatroom)
+                        self.chatListTableView.reloadData()
+                        return
+                    }
+                    
+                    Firestore.firestore().collection("chatRooms").document(chatroom.documentId ?? "").collection("messages").document(latestMessageId).getDocument {(messageSnapshot,err) in
+                        
+                        if let err = err {
+                            print("最新情報の取得に失敗しました\(err)")
+                            return
+                        }
+                        guard let dic = messageSnapshot?.data() else { return }
+                        let message = Message(dic: dic)
+                        chatroom.latestMessage = message
+                        
+                        self.chatrooms.append(chatroom)
+                        self.chatListTableView.reloadData()
+                    }
                 }
             }
         }
@@ -177,18 +196,6 @@ extension ChatListViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 class ChatListTableViewCell: UITableViewCell {
-    
-//    var user: User? {
-//        didSet {
-//            if let user = user {
-//                partnerLabel.text = user.username
-//                //            userImageView.image = user?.profileImageUrl
-//                dateLabel.text = dateFormatterForDatelLabel(date: user.createdAt.dateValue())
-//                latestMessageLabel.text = user.email
-//            }
-//        }
-//    }
-    
     var chatroom: ChatRoom? {
         didSet {
             if let chatroom = chatroom {
@@ -197,7 +204,8 @@ class ChatListTableViewCell: UITableViewCell {
                 guard let url = URL(string: chatroom.partnerUser?.profileImageUrl ?? "") else { return }
                 Nuke.loadImage(with: url, into: userImageView)
                 
-                dateLabel.text = dateFormatterForDateLabel(date: chatroom.createdAt.dateValue())
+                dateLabel.text = dateFormatterForDateLabel(date: chatroom.latestMessage?.createdAt.dateValue() ?? Date())
+                latestMessageLabel.text = chatroom.latestMessage?.message
             }
         }
     }
@@ -218,7 +226,7 @@ class ChatListTableViewCell: UITableViewCell {
     private func dateFormatterForDateLabel(date: Date) -> String {
         let formattter = DateFormatter()
         formattter.dateStyle = .full
-        formattter.timeStyle = .none
+        formattter.timeStyle = .short
         formattter.locale = Locale(identifier: "ja_JP")
         return formattter.string(from: date)
     }

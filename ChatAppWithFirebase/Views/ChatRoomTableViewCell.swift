@@ -92,7 +92,7 @@ class ChatRoomTableViewCell: UITableViewCell {
     }
     private func dateFormatterForDateLabel(date: Date) -> String {
         let formattter = DateFormatter()
-        formattter.dateStyle = .none
+        formattter.dateStyle = .short
         formattter.timeStyle = .short
         formattter.locale = Locale(identifier: "ja_JP")
         return formattter.string(from: date)
