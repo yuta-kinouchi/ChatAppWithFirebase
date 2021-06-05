@@ -24,6 +24,8 @@
 		2A2D765D2662217D0005DE01 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2D765C2662217D0005DE01 /* UserListViewController.swift */; };
 		2A2D765F2665330E0005DE01 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2D765E2665330E0005DE01 /* ChatRoom.swift */; };
 		2A2D76612667D6470005DE01 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2D76602667D6470005DE01 /* Message.swift */; };
+		2A2D7663266BC8B20005DE01 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A2D7662266BC8B10005DE01 /* Login.storyboard */; };
+		2A2D7665266BCA370005DE01 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2D7664266BCA370005DE01 /* LoginViewController.swift */; };
 		2AE4EE3A265E7B7700AD6B21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE4EE39265E7B7700AD6B21 /* AppDelegate.swift */; };
 		2AE4EE3C265E7B7700AD6B21 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE4EE3B265E7B7700AD6B21 /* SceneDelegate.swift */; };
 		2AE4EE40265E7B7A00AD6B21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AE4EE3F265E7B7A00AD6B21 /* Assets.xcassets */; };
@@ -72,6 +74,8 @@
 		2A2D765C2662217D0005DE01 /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		2A2D765E2665330E0005DE01 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		2A2D76602667D6470005DE01 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		2A2D7662266BC8B10005DE01 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		2A2D7664266BCA370005DE01 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2AE4EE36265E7B7700AD6B21 /* ChatAppWithFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatAppWithFirebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AE4EE39265E7B7700AD6B21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2AE4EE3B265E7B7700AD6B21 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +132,7 @@
 				2A2D7644265F50B80005DE01 /* ChatRoomViewController.swift */,
 				2A2D7655265FF6280005DE01 /* SignUpViewController.swift */,
 				2A2D765C2662217D0005DE01 /* UserListViewController.swift */,
+				2A2D7664266BCA370005DE01 /* LoginViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -139,6 +144,7 @@
 				2A2D7642265F503E0005DE01 /* ChatRoom.storyboard */,
 				2A2D7653265FF2850005DE01 /* SignUp.storyboard */,
 				2A2D765A26621F420005DE01 /* UserList.storyboard */,
+				2A2D7662266BC8B10005DE01 /* Login.storyboard */,
 			);
 			path = StoryBoards;
 			sourceTree = "<group>";
@@ -385,6 +391,7 @@
 				2A2D7643265F503E0005DE01 /* ChatRoom.storyboard in Resources */,
 				2A2D764E265FC3E00005DE01 /* ChatInputAccessoryView.xib in Resources */,
 				2A2D7654265FF2850005DE01 /* SignUp.storyboard in Resources */,
+				2A2D7663266BC8B20005DE01 /* Login.storyboard in Resources */,
 				2A2D7652265FE5600005DE01 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -524,6 +531,7 @@
 				2A2D7650265FC5D20005DE01 /* ChatInputAccessoryView.swift in Sources */,
 				2A2D76612667D6470005DE01 /* Message.swift in Sources */,
 				2A2D763D265EA0380005DE01 /* ChatListViewController.swift in Sources */,
+				2A2D7665266BCA370005DE01 /* LoginViewController.swift in Sources */,
 				2A2D765F2665330E0005DE01 /* ChatRoom.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
