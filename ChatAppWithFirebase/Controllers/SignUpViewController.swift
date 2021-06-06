@@ -10,6 +10,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseAuth
 import FirebaseStorage
+import PKHUD
 
 class SignUpViewController: UIViewController {
     
@@ -30,7 +31,7 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViews()
-
+        
         
     }
     
@@ -65,55 +66,67 @@ class SignUpViewController: UIViewController {
     }
     
     @objc private func tappedRegisterButton() {
-        guard let image = profileImageButton.imageView?.image else { return }
-        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
+        let image = profileImageButton.imageView?.image ?? UIImage(named: "macho")
+        guard let uploadImage = image?.jpegData(compressionQuality: 0.3) else { return }
+        
+        HUD.show(.progress)
         
         let fileName = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child("profile_image").child(fileName)
         
         storageRef.putData(uploadImage, metadata: nil) { (metadata,err) in
             if let err = err {
+                HUD.hide()
                 return
             }
-                  storageRef.downloadURL { url, err in
-                    if let err = err {
-                    }
-                    guard let urlString = url?.absoluteString else { return }
-                    self.createUserToFirestore(profileImageUrl: urlString)
+            storageRef.downloadURL { url, err in
+                if let err = err {
+                    HUD.hide()
+                    return
                 }
-         }
+                guard let urlString = url?.absoluteString else { return }
+                self.createUserToFirestore(profileImageUrl: urlString)
+            }
+        }
     }
     
     private func createUserToFirestore(profileImageUrl: String) {
-            guard let email = emailTextField.text else { return }
-            guard let password = passwordTextField.text else { return }
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        
+        Auth.auth().createUser(withEmail: email, password: password) { res, err in
+            if let err = err {
+                HUD.hide()
+                return
+            }
             
-            Auth.auth().createUser(withEmail: email, password: password) { res, err in
+            print("認証情報の保存に成功しました")
+            HUD.hide()
+            
+            guard let uid = res?.user.uid else { return }
+            guard let username = self.usernameTextField.text else { return }
+            
+            let docData = [
+                "email": email,
+                "username": username,
+                "createdAt": Timestamp(),
+                "profileImageUrl": profileImageUrl
+            ] as [String : Any]
+            Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
                 if let err = err {
+                    print("データベースへの保存に失敗しました \(err)")
                     return
                 }
-                
-                print("認証情報の保存に成功しました")
-                
-                guard let uid = res?.user.uid else { return }
-                guard let username = self.usernameTextField.text else { return }
-                
-                let docData = [
-                    "email": email,
-                    "username": username,
-                    "createdAt": Timestamp(),
-                    "profileImageUrl": profileImageUrl
-                ] as [String : Any]
-                Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
-                    if let err = err {
-                        print("データベースへの保存に失敗しました \(err)")
-                        return
-                    }
-                    print("FireStoreへの情報の保存が成功しました")
-                    self.dismiss(animated: true, completion: nil)
-                }
+                print("FireStoreへの情報の保存が成功しました")
+                self.dismiss(animated: true, completion: nil)
             }
+        }
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
 }
 
 extension SignUpViewController: UITextFieldDelegate {
