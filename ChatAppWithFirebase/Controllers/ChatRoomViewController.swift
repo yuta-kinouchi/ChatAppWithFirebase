@@ -17,6 +17,10 @@ class ChatRoomViewController: UIViewController {
     
     private let cellId = "cellId"
     private var messages = [Message]()
+    private let accessoryHeight: CGFloat = 100
+    private var safeAreaBottom: CGFloat {
+        self.view.safeAreaInsets.bottom
+    }
     
     var chatroom: ChatRoom?
     var user: User?
@@ -32,6 +36,18 @@ class ChatRoomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNotification()
+        setupChatRoomTableView()
+        fetchMessage()
+    }
+    
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func setupChatRoomTableView() {
+        
         chatRoomTableView.delegate = self
         chatRoomTableView.dataSource = self
         chatRoomTableView.register(UINib(nibName: "ChatRoomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
@@ -44,7 +60,29 @@ class ChatRoomViewController: UIViewController {
         //下のテキストが見切れた時に，表示させることができる
         chatRoomTableView.contentInset = .init(top: 80, left: 0, bottom: 0, right: 0)
         chatRoomTableView.scrollIndicatorInsets = .init(top: 80, left: 0, bottom: 0, right: 0)
-        fetchMessage()
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else { return }
+        
+        if let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
+            
+            if keyboardFrame.height <= accessoryHeight  { return }
+            
+            let top = keyboardFrame.height - safeAreaBottom
+            var moveY = -(top - chatRoomTableView.contentOffset.y )
+            if chatRoomTableView.contentOffset.y != -60 { moveY += 60 }
+            let contentINset = UIEdgeInsets(top: top, left: 0, bottom: 0, right: 0)
+            
+            chatRoomTableView.contentInset = contentINset
+            chatRoomTableView.scrollIndicatorInsets = contentINset
+            chatRoomTableView.contentOffset = CGPoint(x: 0, y: moveY)
+        }
+    }
+    
+    @objc func keyboardWillHide() {
+        chatRoomTableView.contentInset = .init(top: 80, left: 0, bottom: 0, right: 0)
+        chatRoomTableView.scrollIndicatorInsets = .init(top: 80, left: 0, bottom: 0, right: 0)
     }
     
     override var inputAccessoryView: UIView? {
@@ -102,7 +140,6 @@ extension ChatRoomViewController: ChatInputAccessoryViewDelegate {
         guard let name = user?.username else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
         chatInputAccessoryView.removeText()
-        
         let messageId = randomString(length: 20)
         
         let docData = [

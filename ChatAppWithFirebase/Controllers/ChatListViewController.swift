@@ -39,8 +39,6 @@ class ChatListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchLoginUserInfo()
-        
-        
     }
     
     func fetchChatroomsInfoFromFirestore() {
@@ -237,6 +235,7 @@ class ChatListTableViewCell: UITableViewCell {
     @IBOutlet var latestMessageLabel: UILabel!
     @IBOutlet var partnerLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         userImageView.layer.cornerRadius = 30
