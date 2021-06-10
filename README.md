@@ -1,3 +1,7 @@
+# 画面遷移図
+
+<img width="825" alt="スクリーンショット 2021-06-10 15 55 42" src="https://user-images.githubusercontent.com/45548229/121479215-c3e24d00-ca04-11eb-8eb2-3ae78a6b1e19.png">
+
 # 各ブランチでの更新内容
 
 ## episode1
@@ -51,5 +55,3 @@ FereStore情報の取得
 
 ## episode15
 ログアウト，ログイン画面の実装
-
-# 画面遷移図
