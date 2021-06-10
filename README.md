@@ -1,4 +1,5 @@
-# ChatAppWithFirebase
+# 各ブランチでの更新内容
+
 ## episode1
 ChatListのUI作成
 
@@ -50,3 +51,5 @@ FereStore情報の取得
 
 ## episode15
 ログアウト，ログイン画面の実装
+
+# 画面遷移図
