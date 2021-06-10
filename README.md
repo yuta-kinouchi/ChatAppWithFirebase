@@ -1,9 +1,19 @@
 # ChatAppWithFirebase
 ## episode1
+ChatListのUI作成
+
 ## episode2
+ChatRoomのUI作成
+
 ## episode3
+メッセージ送信用のテキスト入力UI作成
+
 ## episode4
+メッセージ送信の実装
+メッセージ吹き出しへの反映方法
+
 ## episode5
+FirebaseとXcodeの接続
 
 ## episode6
 会員登録画面の作成
