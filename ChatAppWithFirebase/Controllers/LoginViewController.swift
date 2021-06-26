@@ -13,17 +13,22 @@ import PKHUD
 class LoginViewController: UIViewController {
     
     @IBOutlet var emailTextField: UITextField!
-    @IBOutlet var passwordTextView: UITextField!
+    @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var loginButton: UIButton!
     @IBOutlet var dontHaveAccountButton: UIButton!
+
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        loginButton.isEnabled = false
+        loginButton.backgroundColor = .rgb(red: 100, green: 100, blue: 100)
         loginButton.layer.cornerRadius = 8
         dontHaveAccountButton.addTarget(self, action: #selector(tappedDontHaveAccountButton), for: .touchUpInside)
         loginButton.addTarget(self, action: #selector(tappedLoginButton), for: .touchUpInside)
     }
+    
+
     
     @objc private func tappedDontHaveAccountButton() {
         self.navigationController?.popViewController(animated: true)
@@ -31,13 +36,15 @@ class LoginViewController: UIViewController {
     
     @objc private func tappedLoginButton() {
         guard let email = emailTextField.text else { return }
-        guard let password = passwordTextView.text else { return }
+        guard let password = passwordTextField.text else { return }
         
         HUD.show(.progress)
         
         Auth.auth().signIn(withEmail: email, password: password){(res,err) in
             if let err = err {
-                print("ログインに失敗しました\(err)")
+                let dialog = UIAlertController(title: "", message: "メールアドレスもしくはパスワードが異なります",  preferredStyle: .alert)
+                dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(dialog, animated: true, completion: nil)
                 HUD.hide()
                 return
             }
@@ -53,5 +60,35 @@ class LoginViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if (UITraitCollection.current.userInterfaceStyle == .dark) {
+            emailTextField.attributedPlaceholder = NSAttributedString(string: emailTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            emailTextField.backgroundColor = UIColor.gray
+            passwordTextField.attributedPlaceholder = NSAttributedString(string: passwordTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            passwordTextField.backgroundColor = UIColor.gray
+//            loginButton.backgroundColor = .rgb(red: 100, green: 255, blue: 100)
+
+        } else {
+            emailTextField.attributedPlaceholder = NSAttributedString(string:  emailTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            passwordTextField.attributedPlaceholder = NSAttributedString(string:  passwordTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            passwordTextField.backgroundColor = UIColor.gray
+        }
+    }
+    
+}
+
+extension LoginViewController: UITextFieldDelegate{
+    func textFieldDidChangeSelection(_ textField: UITextField){
+        let emailIsEmpty = emailTextField.text?.isEmpty ?? false
+        let passwordIsEmpty = passwordTextField.text?.isEmpty ?? false
+        if emailIsEmpty || passwordIsEmpty {
+            loginButton.isEnabled = false
+            loginButton.backgroundColor = .rgb(red: 100, green: 100, blue: 100)
+        } else {
+            loginButton.isEnabled = true
+            loginButton.backgroundColor = .rgb(red: 0, green: 185, blue: 0)
+        }
     }
 }

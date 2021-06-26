@@ -38,6 +38,17 @@ class SignUpViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        if (UITraitCollection.current.userInterfaceStyle == .dark) {
+            emailTextField.attributedPlaceholder = NSAttributedString(string: emailTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            emailTextField.backgroundColor = UIColor.gray
+            passwordTextField.attributedPlaceholder = NSAttributedString(string: passwordTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            passwordTextField.backgroundColor = UIColor.gray
+            usernameTextField.attributedPlaceholder = NSAttributedString(string: usernameTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            usernameTextField.backgroundColor = UIColor.gray
+            profileImageButton.setTitleColor(UIColor.black, for: .normal)
+        }else{
+            
+        }
     }
     
     private func setUpViews() {
@@ -57,6 +68,7 @@ class SignUpViewController: UIViewController {
         
         registerButton.isEnabled = false
         registerButton.backgroundColor = .rgb(red: 100, green: 100, blue: 100)
+        passwordTextField.textContentType = .newPassword
     }
     
     @objc private func tappedAlreadyHaveAccountButton() {
@@ -76,11 +88,13 @@ class SignUpViewController: UIViewController {
         
         storageRef.putData(uploadImage, metadata: nil) { (metadata,err) in
             if let err = err {
+                print(err)
                 HUD.hide()
                 return
             }
             storageRef.downloadURL { url, err in
                 if let err = err {
+                    print(err)
                     HUD.hide()
                     return
                 }
@@ -96,6 +110,10 @@ class SignUpViewController: UIViewController {
         
         Auth.auth().createUser(withEmail: email, password: password) { res, err in
             if let err = err {
+                print(err)
+                let dialog = UIAlertController(title: "入力内容に誤りがあります", message: "",  preferredStyle: .alert)
+                dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(dialog, animated: true, completion: nil)
                 HUD.hide()
                 return
             }

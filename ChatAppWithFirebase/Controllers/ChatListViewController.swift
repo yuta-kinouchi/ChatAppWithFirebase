@@ -22,7 +22,7 @@ class ChatListViewController: UIViewController {
             navigationItem.title = user?.username
         }
     }
-    
+
     @IBOutlet var chatListTableView: UITableView!
     
     // 画面ができたときに一度だけ呼ばれる処理
@@ -90,7 +90,7 @@ class ChatListViewController: UIViewController {
                     user.uid = documentChange.document.documentID
                     chatroom.partnerUser  = user
                     
-                    guard let chatroomId = chatroom.documentId else { return }
+//                    guard let chatroomId = chatroom.documentId else { return }
                     let latestMessageId = chatroom.latestMessageId
                     
                     if latestMessageId == "" {
@@ -119,8 +119,11 @@ class ChatListViewController: UIViewController {
     
     private func setUpViews() {
         chatListTableView.tableFooterView = UIView()
+        // テーブルビューを使うときに必ず必要な二つ
         chatListTableView.delegate = self
         chatListTableView.dataSource = self
+        
+        // ナビゲーションに関する初期設定
         navigationController?.navigationBar.barTintColor = .rgb(red: 39, green: 49, blue: 69)
         navigationItem.title = "と〜く"
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -130,6 +133,8 @@ class ChatListViewController: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = .white
         navigationItem.leftBarButtonItem = logoutBarButton
         navigationItem.leftBarButtonItem?.tintColor = .white
+
+        
         
     }
     
@@ -202,11 +207,11 @@ extension ChatListViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    // タップした時の反応
+    // ページ遷移のコード（chatlistからchatroomへ）
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("tapped")
         let storyboard = UIStoryboard.init(name: "ChatRoom", bundle: nil)
         let chatRoomViewController = storyboard.instantiateViewController(withIdentifier: "ChatRoomViewController") as! ChatRoomViewController
+        // 値の受け渡し
         chatRoomViewController.chatroom = chatrooms[indexPath.row]
         chatRoomViewController.user = user
         navigationController?.pushViewController(chatRoomViewController, animated: true)
@@ -227,6 +232,9 @@ class ChatListTableViewCell: UITableViewCell {
                 
                 dateLabel.text = dateFormatterForDateLabel(date: chatroom.latestMessage?.createdAt.dateValue() ?? Date())
                 latestMessageLabel.text = chatroom.latestMessage?.message
+                latestMessageLabel.textColor = UIColor.white
+                partnerLabel.textColor =  UIColor.white
+                dateLabel.textColor = UIColor.white
             }
         }
     }
@@ -236,11 +244,11 @@ class ChatListTableViewCell: UITableViewCell {
     @IBOutlet var partnerLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     
+    // テーブルビューを作るときに必要な関数
     override func awakeFromNib() {
         super.awakeFromNib()
         userImageView.layer.cornerRadius = 30
     }
-    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }

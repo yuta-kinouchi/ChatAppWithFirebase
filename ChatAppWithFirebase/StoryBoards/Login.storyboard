@@ -30,7 +30,6 @@
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="メールアドレス" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ygg-Lg-WGa">
                                                 <rect key="frame" x="0.0" y="20.5" width="300" height="47"/>
-                                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -72,14 +71,13 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xMe-fl-ajl">
-                                <rect key="frame" x="107.5" y="536" width="199" height="28"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <rect key="frame" x="77" y="536" width="260" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="まだアカウントをお持ちでない方"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2G-hh-kz0">
                                 <rect key="frame" x="131" y="124" width="152.5" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -100,7 +98,7 @@
                         <outlet property="dontHaveAccountButton" destination="xMe-fl-ajl" id="bFK-qk-f5X"/>
                         <outlet property="emailTextField" destination="Ygg-Lg-WGa" id="6PN-Oy-B2k"/>
                         <outlet property="loginButton" destination="CW7-MK-E9X" id="F9y-AI-IrQ"/>
-                        <outlet property="passwordTextView" destination="O30-GT-XL9" id="GLB-hL-ori"/>
+                        <outlet property="passwordTextField" destination="O30-GT-XL9" id="GLB-hL-ori"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3HZ-hu-sKH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

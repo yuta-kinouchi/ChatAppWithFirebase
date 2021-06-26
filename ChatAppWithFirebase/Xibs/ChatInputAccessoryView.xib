@@ -53,7 +53,7 @@
         </view>
     </objects>
     <resources>
-        <image name="airplane" width="225" height="225"/>
+        <image name="airplane" width="112.5" height="112.5"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

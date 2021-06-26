@@ -12,9 +12,7 @@ import FirebaseStorage
 import FirebaseAuth
 
 class ChatRoomViewController: UIViewController {
-    
-    
-    
+
     private let cellId = "cellId"
     private var messages = [Message]()
     private let accessoryHeight: CGFloat = 100
@@ -25,9 +23,11 @@ class ChatRoomViewController: UIViewController {
     var chatroom: ChatRoom?
     var user: User?
     
+    // 送信部分のインスタンスを作成
     private lazy var chatInputAccessoryView: ChatInputAccessoryView = {
         let view = ChatInputAccessoryView()
         view.frame = .init(x: 0, y: 0, width: view.frame.width, height: 100)
+        // chatinputaccessoryviewで指定したdelegateをここで受け取る
         view.delegate = self
         return view
     }()
@@ -85,6 +85,7 @@ class ChatRoomViewController: UIViewController {
         chatRoomTableView.scrollIndicatorInsets = .init(top: 80, left: 0, bottom: 0, right: 0)
     }
     
+    // キーボード表示を行うときにキーボードに合わせてスライドする
     override var inputAccessoryView: UIView? {
         get {
             return chatInputAccessoryView
@@ -131,17 +132,19 @@ class ChatRoomViewController: UIViewController {
 
 extension ChatRoomViewController: ChatInputAccessoryViewDelegate {
     
+    // 送信ボタンをタップした時の挙動
     func tappedSendButton(text: String) {
         addMessageToFirestore(text: text)
+       
     }
     
     private func addMessageToFirestore(text: String) {
         guard let chatroomDocId = chatroom?.documentId else { return }
+        // nameが取得できずにreturnになっている
         guard let name = user?.username else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
         chatInputAccessoryView.removeText()
         let messageId = randomString(length: 20)
-        
         let docData = [
             "name": name,
             "createdAt": Timestamp(),
@@ -160,13 +163,12 @@ extension ChatRoomViewController: ChatInputAccessoryViewDelegate {
                 "latestMessageId": messageId
             ]
                 
-                    Firestore.firestore().collection("chatRooms").document(chatroomDocId).updateData(latestMessageDate) { (err) in
+            Firestore.firestore().collection("chatRooms").document(chatroomDocId).updateData(latestMessageDate) { (err) in
                     if let err = err {
                         print("最新のメッセージの保存に失敗しました\(err)")
                         return
-                    }
-                    
                 }
+            }
         }
     }
     

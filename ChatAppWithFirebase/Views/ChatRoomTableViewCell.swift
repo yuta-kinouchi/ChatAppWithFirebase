@@ -39,9 +39,13 @@ class ChatRoomTableViewCell: UITableViewCell {
         backgroundColor = .clear
         userImageView.layer.cornerRadius = 30
         partnerMessageTextView.layer.cornerRadius = 15
+        partnerMessageTextView.textColor = UIColor.black
         myMessageTextView.layer.cornerRadius = 15
+        myMessageTextView.textColor = UIColor.black
+
 
     }
+    
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -84,7 +88,9 @@ class ChatRoomTableViewCell: UITableViewCell {
         }
     }
     
+    // メッセージの量に応じて吹き出しのサイズを変更する関数
     private func estimateFlameForTextView(text: String) -> CGRect {
+        // max値の指定
         let size = CGSize(width: 200, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         
