@@ -26,6 +26,8 @@ class LoginViewController: UIViewController {
         loginButton.layer.cornerRadius = 8
         dontHaveAccountButton.addTarget(self, action: #selector(tappedDontHaveAccountButton), for: .touchUpInside)
         loginButton.addTarget(self, action: #selector(tappedLoginButton), for: .touchUpInside)
+        emailTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .editingChanged)
     }
     
 
@@ -37,9 +39,7 @@ class LoginViewController: UIViewController {
     @objc private func tappedLoginButton() {
         guard let email = emailTextField.text else { return }
         guard let password = passwordTextField.text else { return }
-        
         HUD.show(.progress)
-        
         Auth.auth().signIn(withEmail: email, password: password){(res,err) in
             if let err = err {
                 let dialog = UIAlertController(title: "", message: "メールアドレスもしくはパスワードが異なります",  preferredStyle: .alert)
@@ -48,9 +48,7 @@ class LoginViewController: UIViewController {
                 HUD.hide()
                 return
             }
-            
             HUD.hide()
-            print("ログインに成功しました")
             let nav = self.presentingViewController as! UINavigationController
             let chatListViewController = nav.viewControllers[nav.viewControllers.count-1] as? ChatListViewController
             chatListViewController?.fetchChatroomsInfoFromFirestore()
@@ -71,12 +69,11 @@ class LoginViewController: UIViewController {
 //            loginButton.backgroundColor = .rgb(red: 100, green: 255, blue: 100)
 
         } else {
-            emailTextField.attributedPlaceholder = NSAttributedString(string:  emailTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            passwordTextField.attributedPlaceholder = NSAttributedString(string:  passwordTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            passwordTextField.backgroundColor = UIColor.gray
+//            emailTextField.attributedPlaceholder = NSAttributedString(string:  emailTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+//            passwordTextField.attributedPlaceholder = NSAttributedString(string:  passwordTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+//            passwordTextField.backgroundColor = UIColor.
         }
     }
-    
 }
 
 extension LoginViewController: UITextFieldDelegate{

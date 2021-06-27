@@ -31,8 +31,6 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViews()
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,12 +78,9 @@ class SignUpViewController: UIViewController {
     @objc private func tappedRegisterButton() {
         let image = profileImageButton.imageView?.image ?? UIImage(named: "macho")
         guard let uploadImage = image?.jpegData(compressionQuality: 0.3) else { return }
-        
         HUD.show(.progress)
-        
         let fileName = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child("profile_image").child(fileName)
-        
         storageRef.putData(uploadImage, metadata: nil) { (metadata,err) in
             if let err = err {
                 print(err)
@@ -107,18 +102,21 @@ class SignUpViewController: UIViewController {
     private func createUserToFirestore(profileImageUrl: String) {
         guard let email = emailTextField.text else { return }
         guard let password = passwordTextField.text else { return }
+        if password.count < 6 {
+            let dialog = UIAlertController(title: "パスワードは6文字以上で設定してください", message: "",  preferredStyle: .alert)
+            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(dialog, animated: true, completion: nil)
+        }
         
         Auth.auth().createUser(withEmail: email, password: password) { res, err in
             if let err = err {
                 print(err)
-                let dialog = UIAlertController(title: "入力内容に誤りがあります", message: "",  preferredStyle: .alert)
+                let dialog = UIAlertController(title: "メールアドレスをご確認ください", message: "",  preferredStyle: .alert)
                 dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(dialog, animated: true, completion: nil)
                 HUD.hide()
                 return
             }
-            
-            print("認証情報の保存に成功しました")
             HUD.hide()
             
             guard let uid = res?.user.uid else { return }
@@ -144,7 +142,6 @@ class SignUpViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
 }
 
 extension SignUpViewController: UITextFieldDelegate {

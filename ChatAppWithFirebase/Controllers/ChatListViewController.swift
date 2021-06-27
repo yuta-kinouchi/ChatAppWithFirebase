@@ -232,9 +232,11 @@ class ChatListTableViewCell: UITableViewCell {
                 
                 dateLabel.text = dateFormatterForDateLabel(date: chatroom.latestMessage?.createdAt.dateValue() ?? Date())
                 latestMessageLabel.text = chatroom.latestMessage?.message
+                if (UITraitCollection.current.userInterfaceStyle == .dark) {
                 latestMessageLabel.textColor = UIColor.white
                 partnerLabel.textColor =  UIColor.white
                 dateLabel.textColor = UIColor.white
+                }
             }
         }
     }
