@@ -26,6 +26,7 @@
 		2A2D76612667D6470005DE01 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2D76602667D6470005DE01 /* Message.swift */; };
 		2A2D7663266BC8B20005DE01 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A2D7662266BC8B10005DE01 /* Login.storyboard */; };
 		2A2D7665266BCA370005DE01 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2D7664266BCA370005DE01 /* LoginViewController.swift */; };
+		2A61A71D26893A0F00B9FEB7 /* Filebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A61A71C26893A0F00B9FEB7 /* Filebase.swift */; };
 		2AE4EE3A265E7B7700AD6B21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE4EE39265E7B7700AD6B21 /* AppDelegate.swift */; };
 		2AE4EE3C265E7B7700AD6B21 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE4EE3B265E7B7700AD6B21 /* SceneDelegate.swift */; };
 		2AE4EE40265E7B7A00AD6B21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AE4EE3F265E7B7A00AD6B21 /* Assets.xcassets */; };
@@ -76,6 +77,7 @@
 		2A2D76602667D6470005DE01 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		2A2D7662266BC8B10005DE01 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		2A2D7664266BCA370005DE01 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		2A61A71C26893A0F00B9FEB7 /* Filebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filebase.swift; sourceTree = "<group>"; };
 		2AE4EE36265E7B7700AD6B21 /* ChatAppWithFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatAppWithFirebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AE4EE39265E7B7700AD6B21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2AE4EE3B265E7B7700AD6B21 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -185,6 +187,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		2A61A71B268939E800B9FEB7 /* connectFirebase */ = {
+			isa = PBXGroup;
+			children = (
+				2A61A71C26893A0F00B9FEB7 /* Filebase.swift */,
+			);
+			path = connectFirebase;
+			sourceTree = "<group>";
+		};
 		2AE4EE2D265E7B7700AD6B21 = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +220,7 @@
 		2AE4EE38265E7B7700AD6B21 /* ChatAppWithFirebase */ = {
 			isa = PBXGroup;
 			children = (
+				2A61A71B268939E800B9FEB7 /* connectFirebase */,
 				2A2D76572660DA260005DE01 /* Models */,
 				2A2D764C265FC37E0005DE01 /* extensions */,
 				2A2D764B265FC36E0005DE01 /* Views */,
@@ -524,6 +535,7 @@
 				2A2D7641265F4BBE0005DE01 /* UIColor-Extension.swift in Sources */,
 				2A2D7656265FF6280005DE01 /* SignUpViewController.swift in Sources */,
 				2A2D7645265F50B80005DE01 /* ChatRoomViewController.swift in Sources */,
+				2A61A71D26893A0F00B9FEB7 /* Filebase.swift in Sources */,
 				2AE4EE3C265E7B7700AD6B21 /* SceneDelegate.swift in Sources */,
 				2A2D765D2662217D0005DE01 /* UserListViewController.swift in Sources */,
 				2A2D76592660DA420005DE01 /* User.swift in Sources */,

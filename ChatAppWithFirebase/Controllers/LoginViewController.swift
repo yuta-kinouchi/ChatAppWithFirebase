@@ -11,14 +11,10 @@ import FirebaseAuth
 import PKHUD
 
 class LoginViewController: UIViewController {
-    
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var loginButton: UIButton!
     @IBOutlet var dontHaveAccountButton: UIButton!
-
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         loginButton.isEnabled = false
@@ -29,8 +25,6 @@ class LoginViewController: UIViewController {
         emailTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .editingChanged)
         passwordTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .editingChanged)
     }
-    
-
     
     @objc private func tappedDontHaveAccountButton() {
         self.navigationController?.popViewController(animated: true)
@@ -66,12 +60,8 @@ class LoginViewController: UIViewController {
             emailTextField.backgroundColor = UIColor.gray
             passwordTextField.attributedPlaceholder = NSAttributedString(string: passwordTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
             passwordTextField.backgroundColor = UIColor.gray
-//            loginButton.backgroundColor = .rgb(red: 100, green: 255, blue: 100)
-
         } else {
-//            emailTextField.attributedPlaceholder = NSAttributedString(string:  emailTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-//            passwordTextField.attributedPlaceholder = NSAttributedString(string:  passwordTextField.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-//            passwordTextField.backgroundColor = UIColor.
+            // Nothing to do
         }
     }
 }

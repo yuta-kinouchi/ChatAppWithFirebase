@@ -13,21 +13,18 @@ import FirebaseStorage
 import PKHUD
 
 class SignUpViewController: UIViewController {
-    
     @IBOutlet var profileImageButton: UIButton!
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var usernameTextField: UITextField!
     @IBOutlet var registerButton: UIButton!
     @IBOutlet var alreadyHaveAccountButton: UIButton!
-    
     @IBAction func tappedProfileImageButton(_ sender: Any) {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
         self.present(imagePickerController, animated: true, completion: nil)
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViews()
@@ -45,7 +42,7 @@ class SignUpViewController: UIViewController {
             usernameTextField.backgroundColor = UIColor.gray
             profileImageButton.setTitleColor(UIColor.black, for: .normal)
         }else{
-            
+            // Nothing to do
         }
     }
     
@@ -53,17 +50,13 @@ class SignUpViewController: UIViewController {
         profileImageButton.layer.cornerRadius = 85
         profileImageButton.layer.borderWidth = 1
         profileImageButton.layer.borderColor = UIColor.rgb(red: 240, green: 240, blue: 240).cgColor
-        
         registerButton.layer.cornerRadius = 12
-        
         profileImageButton.addTarget(self, action: #selector(tappedProfileImageButton), for: .touchUpInside)
         registerButton.addTarget(self, action: #selector(tappedRegisterButton), for: .touchUpInside)
         alreadyHaveAccountButton.addTarget(self, action: #selector(tappedAlreadyHaveAccountButton), for: .touchUpInside)
-        
         emailTextField.delegate = self
         passwordTextField.delegate = self
         usernameTextField.delegate = self
-        
         registerButton.isEnabled = false
         registerButton.backgroundColor = .rgb(red: 100, green: 100, blue: 100)
         passwordTextField.textContentType = .newPassword
@@ -107,7 +100,6 @@ class SignUpViewController: UIViewController {
             dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(dialog, animated: true, completion: nil)
         }
-        
         Auth.auth().createUser(withEmail: email, password: password) { res, err in
             if let err = err {
                 print(err)
@@ -118,10 +110,8 @@ class SignUpViewController: UIViewController {
                 return
             }
             HUD.hide()
-            
             guard let uid = res?.user.uid else { return }
             guard let username = self.usernameTextField.text else { return }
-            
             let docData = [
                 "email": email,
                 "username": username,
@@ -173,7 +163,6 @@ extension SignUpViewController: UIImagePickerControllerDelegate, UINavigationCon
         profileImageButton.contentHorizontalAlignment = .fill
         profileImageButton.contentVerticalAlignment = .fill
         profileImageButton.clipsToBounds = true
-        
         dismiss(animated: true, completion: nil)
     }
 }
