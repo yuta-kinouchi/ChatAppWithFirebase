@@ -7,6 +7,7 @@
 
 import UIKit
 
+// delegateを使うためにプロトコルを作った
 protocol ChatInputAccessoryViewDelegate: class {
     func tappedSendButton(text: String)
 }
@@ -17,14 +18,10 @@ class ChatInputAccessoryView: UIView {
     @IBAction func tappedSendButton(_ sender: Any) {
         guard let text = chatTextView.text else { return }
         delegate?.tappedSendButton(text: text)
-        print("tapped send button")
     }
-    
     weak var delegate: ChatInputAccessoryViewDelegate?
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         nibInit()
         setupViews()
         autoresizingMask = .flexibleHeight
@@ -40,10 +37,12 @@ class ChatInputAccessoryView: UIView {
         sendButton.contentHorizontalAlignment = .fill
         sendButton.contentVerticalAlignment = .fill
         sendButton.isEnabled = false
-        
         chatTextView.text = ""
         chatTextView.delegate = self
-        
+        if (UITraitCollection.current.userInterfaceStyle == .dark) {
+            chatTextView.textColor = UIColor.black
+            sendButton.backgroundColor = UIColor.black
+        }
     }
     
     func removeText() {
@@ -55,6 +54,7 @@ class ChatInputAccessoryView: UIView {
         return .zero
     }
     
+    // これなにしてるんだ
     private func nibInit() {
         let nib = UINib(nibName: "ChatInputAccessoryView", bundle: nil)
         guard let view = nib.instantiate(withOwner: self, options: nil).first as? UIView else { return }
@@ -64,16 +64,13 @@ class ChatInputAccessoryView: UIView {
         self.addSubview(view)
     }
     
-
- 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
-
 extension ChatInputAccessoryView: UITextViewDelegate {
-    
+    // テキストが変更するたびに呼び出される関数
     func textViewDidChange(_ textView: UITextView) {
         if textView.text.isEmpty {
             sendButton.isEnabled = false
