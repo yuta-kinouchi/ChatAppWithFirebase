@@ -14,12 +14,9 @@ import Nuke
 class UserListViewController: UIViewController {
     @IBOutlet var userListTableView: UITableView!
     @IBOutlet var startChatButton: UIButton!
-    
     private let cellId = "cellId"
     private var users = [User]()
     private var selectedUser: User?
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         userListTableView.tableFooterView = UIView()
@@ -28,7 +25,6 @@ class UserListViewController: UIViewController {
         startChatButton.layer.cornerRadius = 15
         startChatButton.isEnabled = false
         startChatButton.addTarget(self, action: #selector(tappedStartChatButton), for: .touchUpInside)
-        
         navigationController?.navigationBar.barTintColor = .rgb(red: 39, green: 49, blue: 69)
         fetchUserInfoFromFirestore()
     }
@@ -48,7 +44,6 @@ class UserListViewController: UIViewController {
                 print("ChatRoom情報の保存に失敗しました\(err)")
                 return
             }
-            // 開いたページが閉じる
             self.dismiss(animated: true, completion: nil)
             print("ChatRoom情報の保存に成功しました")
         }
@@ -64,9 +59,7 @@ class UserListViewController: UIViewController {
                 let dic = snapshot.data()
                 let user = User.init(dic: dic)
                 user.uid = snapshot.documentID
-                
                 guard let uid = Auth.auth().currentUser?.uid else { return }
-                
                 if uid == snapshot.documentID {
                     return
                 }
@@ -94,13 +87,9 @@ extension UserListViewController: UITableViewDelegate,UITableViewDataSource {
         self.selectedUser = user
         print("user: ",user.username)
     }
- 
-
-    
 }
 
 class UserListTableViewCell: UITableViewCell {
-    
     var user: User? {
         didSet{
             usernameLabel.text = user?.username
@@ -111,7 +100,6 @@ class UserListTableViewCell: UITableViewCell {
     }
     @IBOutlet var usernameLabel: UILabel!
     @IBOutlet var userImageView: UIImageView!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         userImageView.layer.cornerRadius = 32.5

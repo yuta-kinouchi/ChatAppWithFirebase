@@ -15,18 +15,13 @@ protocol ChatInputAccessoryViewDelegate: class {
 class ChatInputAccessoryView: UIView {
     @IBOutlet var chatTextView: UITextView!
     @IBOutlet var sendButton: UIButton!
-    // ボタンが押された時のアクション
     @IBAction func tappedSendButton(_ sender: Any) {
-        // 打ち込まれたテキストをchatroomviewcontrollerで使うためにdelegateを．．．
         guard let text = chatTextView.text else { return }
         delegate?.tappedSendButton(text: text)
     }
-    
     weak var delegate: ChatInputAccessoryViewDelegate?
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         nibInit()
         setupViews()
         autoresizingMask = .flexibleHeight
@@ -42,16 +37,12 @@ class ChatInputAccessoryView: UIView {
         sendButton.contentHorizontalAlignment = .fill
         sendButton.contentVerticalAlignment = .fill
         sendButton.isEnabled = false
-        
-        // 初期状態の表示
         chatTextView.text = ""
-        // delegateって何？
         chatTextView.delegate = self
         if (UITraitCollection.current.userInterfaceStyle == .dark) {
             chatTextView.textColor = UIColor.black
             sendButton.backgroundColor = UIColor.black
         }
-        
     }
     
     func removeText() {
@@ -73,19 +64,14 @@ class ChatInputAccessoryView: UIView {
         self.addSubview(view)
     }
     
-
- 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
-
 extension ChatInputAccessoryView: UITextViewDelegate {
-    
     // テキストが変更するたびに呼び出される関数
     func textViewDidChange(_ textView: UITextView) {
-        // テキストがなければボタンは押せない
         if textView.text.isEmpty {
             sendButton.isEnabled = false
         } else {
