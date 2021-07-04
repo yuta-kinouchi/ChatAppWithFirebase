@@ -41,9 +41,8 @@ class ChatListViewController: UIViewController {
         chatRoomListener?.remove()
         chatrooms.removeAll()
         chatListTableView.reloadData()
-//        ConnectFirebase().fetchChatrooms(chatrooms,chatListTableView)
-        chatRoomListener = Firestore.firestore().collection("chatRooms")
-            .addSnapshotListener { (snapshots , err)  in
+        let colRef = ConnectFirebase().getChatRoomsColectionRef()
+        colRef.addSnapshotListener { (snapshots , err)  in
                 if let err = err {
                     print("Chatrooms情報の取得に失敗しました\(err)")
                     return
@@ -64,13 +63,13 @@ class ChatListViewController: UIViewController {
         let dic = documentChange.document.data()
         let chatroom = ChatRoom(dic: dic)
         chatroom.documentId = documentChange.document.documentID
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = ConnectFirebase().getCurrentUser() else { return }
         let isContain = chatroom.members.contains(uid)
         if !isContain { return }
         chatroom.members.forEach { (memberUid) in
             if memberUid != uid {
-//                ConnectFirebase().FetchChatRoomUser(memberUid: memberUid,documentChange: documentChange,chatListTableView: chatListTableView)
-                Firestore.firestore().collection("users").document(memberUid).getDocument { (userSnapshot,err) in
+                let docRef = ConnectFirebase().getUserDocumentRefWithUid(memberUid: memberUid)
+                docRef.getDocument{(userSnapshot,err) in
                     if let err = err {
                         print("ユーザー情報の取得に失敗しました\(err)")
                         return
@@ -85,7 +84,10 @@ class ChatListViewController: UIViewController {
                         self.chatListTableView.reloadData()
                         return
                     }
-                    Firestore.firestore().collection("chatRooms").document(chatroom.documentId ?? "").collection("messages").document(latestMessageId).getDocument {(messageSnapshot,err) in
+                    print(type(of: chatroom))
+                    print(type(of: latestMessageId))
+                    let docRef = ConnectFirebase().getMessagesDocumentWithLatestMessageId(chatroom: chatroom, latestMessageId: latestMessageId)
+                        docRef.getDocument {(messageSnapshot,err) in
                         if let err = err {
                             print("最新情報の取得に失敗しました\(err)")
                             return
@@ -156,7 +158,8 @@ class ChatListViewController: UIViewController {
 
     private func fetchLoginUserInfo() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Firestore.firestore().collection("users").document(uid).getDocument { (snapshot, err) in
+        let docRef = ConnectFirebase().getUserDocumentRefWithUid(memberUid: uid)
+            docRef.getDocument { (snapshot, err) in
             if let err = err {
                 print("ユーザー情報の取得に失敗しました\(err)")
                 return

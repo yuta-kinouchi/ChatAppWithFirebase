@@ -10,6 +10,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseAuth
 import Nuke
+import PKHUD
 
 class UserListViewController: UIViewController {
     @IBOutlet var userListTableView: UITableView!
@@ -30,27 +31,41 @@ class UserListViewController: UIViewController {
     }
     
     @objc func tappedStartChatButton() {
-        print("tapped")
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let partnerUid = self.selectedUser?.uid else { return }
-        let members = [uid, partnerUid]
-        let docData = [
-            "members": members,
-            "latestMessageId": "",
-            "createdAt": Timestamp()
-        ] as [String : Any]
-        Firestore.firestore().collection("chatRooms").addDocument(data: docData) { (err) in
-            if let err = err {
-                print("ChatRoom情報の保存に失敗しました\(err)")
-                return
+        HUD.show(.progress)
+        let docRef = ConnectFirebase().getChatRoomDocmentRefWithUid(uid: uid, partnerUid: partnerUid)
+        docRef.getDocuments() { (document, err) in
+            if document?.isEmpty == true {
+                let members = [uid, partnerUid]
+                let docData = [
+                    "members": members,
+                    "latestMessageId": "",
+                    "createdAt": Timestamp()
+                ] as [String : Any]
+                
+                let colRef = ConnectFirebase().getChatRoomsColectionRef()
+                    colRef.addDocument(data: docData) { (err) in
+                    if let err = err {
+                        print("ChatRoom情報の保存に失敗しました\(err)")
+                        return
+                    }
+                    self.dismiss(animated: true, completion: nil)
+                    print("ChatRoom情報の保存に成功しました")
+                    HUD.hide()
+                }
+            }else{
+                let dialog = UIAlertController(title: "", message: "すでにチャットルームが存在します",  preferredStyle: .alert)
+                dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(dialog, animated: true, completion: nil)
+                HUD.hide()
             }
-            self.dismiss(animated: true, completion: nil)
-            print("ChatRoom情報の保存に成功しました")
         }
     }
     
     private func fetchUserInfoFromFirestore() {
-        Firestore.firestore().collection("users").getDocuments { snapshots, err in
+        let colRef = ConnectFirebase().getUserColectionRef()
+        colRef.getDocuments { snapshots, err in
             if let err = err {
                 print("ユーザー情報の取得に失敗しました\(err)")
                 return
@@ -85,7 +100,6 @@ extension UserListViewController: UITableViewDelegate,UITableViewDataSource {
         startChatButton.isEnabled = true
         let user = users[indexPath.row]
         self.selectedUser = user
-        print("user: ",user.username)
     }
 }
 

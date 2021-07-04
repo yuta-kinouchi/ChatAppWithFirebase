@@ -87,8 +87,8 @@ class ChatRoomViewController: UIViewController {
     
     private func fetchMessage() {
         guard let chatroomDocId = chatroom?.documentId else { return }
-        Firestore.firestore().collection("chatRooms").document(chatroomDocId).collection("messages")
-            .addSnapshotListener { (snapshots,err) in
+        let docRef = ConnectFirebase().getMessagesColectionRef(chatroomDocId: chatroomDocId)
+            docRef.addSnapshotListener { (snapshots,err) in
                 if let err = err {
                     print("メッセージ情報の取得に失敗しました\(err)")
                     return
@@ -124,7 +124,6 @@ extension ChatRoomViewController: ChatInputAccessoryViewDelegate {
     
     private func addMessageToFirestore(text: String) {
         guard let chatroomDocId = chatroom?.documentId else { return }
-        // nameが取得できずにreturnになっている
         guard let name = user?.username else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
         chatInputAccessoryView.removeText()
@@ -135,8 +134,8 @@ extension ChatRoomViewController: ChatInputAccessoryViewDelegate {
             "uid": uid,
             "message": text
         ] as [String: Any]
-        Firestore.firestore().collection("chatRooms").document(chatroomDocId).collection("messages")
-            .document(messageId).setData(docData) { (err) in
+        let docRef = ConnectFirebase().getMessageDocumentWithMessageId(chatroomDocId: chatroomDocId, messageId: messageId)
+            docRef.setData(docData) { (err) in
                 if let err = err {
                     print("メッセージ情報の保存に失敗しました\(err)")
                     return
@@ -144,7 +143,8 @@ extension ChatRoomViewController: ChatInputAccessoryViewDelegate {
                 let latestMessageDate = [
                     "latestMessageId": messageId
                 ]
-                Firestore.firestore().collection("chatRooms").document(chatroomDocId).updateData(latestMessageDate) { (err) in
+                let docRef = ConnectFirebase().getChatRoomDocumentRefWithChatRoomDocId(chatroomDocId: chatroomDocId)
+                    docRef.updateData(latestMessageDate) { (err) in
                     if let err = err {
                         print("最新のメッセージの保存に失敗しました\(err)")
                         return

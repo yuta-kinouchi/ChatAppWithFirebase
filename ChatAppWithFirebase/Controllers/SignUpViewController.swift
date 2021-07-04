@@ -118,7 +118,8 @@ class SignUpViewController: UIViewController {
                 "createdAt": Timestamp(),
                 "profileImageUrl": profileImageUrl
             ] as [String : Any]
-            Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
+            let docRef = ConnectFirebase().getChatRoomDocumentRefWithUid(uid: uid)
+                docRef.setData(docData) { (err) in
                 if let err = err {
                     print("データベースへの保存に失敗しました \(err)")
                     return

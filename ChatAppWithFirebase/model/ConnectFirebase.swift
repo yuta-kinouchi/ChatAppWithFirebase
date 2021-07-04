@@ -6,66 +6,59 @@
 //
 //
 
-//import Firebase
-//import FirebaseFirestore
-//import FirebaseAuth
-//
-//class ConnectFirebase {
-//    
-//    func fetchChatrooms(chatrooms: Array<Any>,chatListTableView: ListenerRegistration?) {
-//        Firestore.firestore().collection("chatRooms")
-//            .addSnapshotListener { (snapshots , err)  in
-//                if let err = err {
-//                    print("Chatrooms情報の取得に失敗しました\(err)")
-//                    return
-//                }
-//                snapshots?.documentChanges.forEach({ DocumentChange in
-//                    switch DocumentChange.type {
-//                    // データベースに追加された情報だけを取ってくる
-//                    case .added:
-//                        let dic = DocumentChange.document.data()
-//                        let chatroom = ChatRoom(dic: dic)
-//                        chatroom.documentId = DocumentChange.document.documentID
-//                        guard let uid = Auth.auth().currentUser?.uid else { return }
-//                        let isContain = chatroom.members.contains(uid)
-//                        if !isContain { return }
-//                        chatroom.members.forEach { (memberUid) in
-//                            if memberUid != uid {
-//                                Firestore.firestore().collection("users").document(memberUid).getDocument { (userSnapshot,err) in
-//                                    if let err = err {
-//                                        print("ユーザー情報の取得に失敗しました\(err)")
-//                                        return
-//                                    }
-//                                    guard let dic = userSnapshot?.data() else { return }
-//                                    let user = User(dic: dic)
-//                                    user.uid = DocumentChange.document.documentID
-//                                    chatroom.partnerUser  = user
-//                                    let latestMessageId = chatroom.latestMessageId
-//                                    if latestMessageId == "" {
-//                                        chatrooms.append(chatroom)
-//                                        chatListTableView.reloadData()
-//                                        return
-//                                    }
-//                                    Firestore.firestore().collection("chatRooms").document(chatroom.documentId ?? "").collection("messages").document(latestMessageId).getDocument {(messageSnapshot,err) in
-//                                        if let err = err {
-//                                            print("最新情報の取得に失敗しました\(err)")
-//                                            return
-//                                        }
-//                                        guard let dic = messageSnapshot?.data() else { return }
-//                                        let message = Message(dic: dic)
-//                                        chatroom.latestMessage = message
-//                                        
-//                                        chatrooms.append(chatroom)
-//                                        chatListTableView.reloadData()
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    case .modified , .removed:
-//                        print("nothing to do")
-//                    }
-//                }
-//            )
-//        }
-//    }
-//}
+import Firebase
+import FirebaseFirestore
+import FirebaseAuth
+
+class ConnectFirebase {
+    
+    func getChatRoomsColectionRef() -> CollectionReference{
+        let ref = Firestore.firestore().collection("chatRooms")
+        return ref
+    }
+    
+    func getChatRoomDocumentRefWithUid(uid: String) -> DocumentReference{
+        let ref = Firestore.firestore().collection("users").document(uid)
+        return ref
+    }
+    
+    func getChatRoomDocmentRefWithUid(uid : String, partnerUid :String) -> Query{
+        let ref = Firestore.firestore().collection("chatRooms").whereField("members", arrayContains: [uid, partnerUid])
+        return ref
+    }
+    
+    func getChatRoomDocumentRefWithChatRoomDocId(chatroomDocId: String) -> DocumentReference{
+        let ref = Firestore.firestore().collection("chatRooms").document(chatroomDocId)
+        return ref
+    }
+    
+    func getUserColectionRef() -> CollectionReference{
+        let ref = Firestore.firestore().collection("users")
+        return ref
+    }
+    
+    func getUserDocumentRefWithUid(memberUid: String) -> DocumentReference {
+        let ref = Firestore.firestore().collection("users").document(memberUid)
+        return ref
+    }
+
+    func getMessagesColectionRef(chatroomDocId: String) -> CollectionReference{
+        let ref = Firestore.firestore().collection("chatRooms").document(chatroomDocId).collection("messages")
+        return ref
+    }
+    
+    func getMessagesDocumentWithLatestMessageId(chatroom: ChatRoom, latestMessageId: String) -> DocumentReference {
+        let ref = Firestore.firestore().collection("chatRooms").document(chatroom.documentId ?? "").collection("messages").document(latestMessageId)
+        return ref
+    }
+    
+    func getMessageDocumentWithMessageId(chatroomDocId: String,messageId: String) -> DocumentReference{
+        let ref = Firestore.firestore().collection("chatRooms").document(chatroomDocId).collection("messages").document(messageId)
+        return ref
+    }
+    
+    func getCurrentUser() -> String?{
+        let uid = Auth.auth().currentUser?.uid
+        return uid
+    }
+}
